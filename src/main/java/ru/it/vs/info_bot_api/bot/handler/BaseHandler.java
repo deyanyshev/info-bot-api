@@ -49,7 +49,7 @@ public abstract class BaseHandler {
     protected void sendMessage(long chatId, String text, InlineKeyboardMarkup markup) {
         bot.execute(SendMessage.builder()
                 .chatId(chatId)
-                .text(text)
+                .text(formatMessageText(text))
                 .replyMarkup(markup)
                 .build()
         );

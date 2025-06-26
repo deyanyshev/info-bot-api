@@ -54,13 +54,7 @@ public class TelegramBot extends AbilityBot {
                 case REPORT_HANDLER -> reportHandler.handle(message);
             }
         } else if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-            chatStates.putIfAbsent(chatId, START);
-
-            switch (chatStates.get(chatId).getHandlerType()) {
-                case COMMAND_HANDLER -> commandHandler.handleCallback(update.getCallbackQuery());
-                case REPORT_HANDLER -> reportHandler.handleCallback(update.getCallbackQuery());
-            }
+            reportHandler.handleCallback(update.getCallbackQuery());
         }
     }
 
