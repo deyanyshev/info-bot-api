@@ -41,9 +41,10 @@ public class ReportHandler extends BaseHandler {
     @Override
     public void handleCallback(CallbackQuery callbackQuery) {
         Message message = callbackQuery.getMessage();
+        String buttonText = message.getReplyMarkup().getKeyboard().get(0).get(0).getText();
 
-        if (Objects.equals(message.getText(), APPROVE_BUTTON_TEXT)) {
-            approveReport(message.getChatId(), callbackQuery.getData());
+        if (Objects.equals(buttonText, APPROVE_BUTTON_TEXT)) {
+            approveReport(message, callbackQuery.getData());
             return;
         }
 
@@ -112,16 +113,18 @@ public class ReportHandler extends BaseHandler {
         bot.chatStates.put(chatId, START);
     }
 
-    private void approveReport(Long chatId, String callback) {
+    private void approveReport(Message message, String callback) {
         UUID reportId = UUID.fromString(callback);
         reportService.approveReportById(reportId);
 
         ReportDto report = reportService.getReportById(reportId);
-        sendMessage(chatId, "Отчёт одобрен!");
+        sendMessage(message.getChatId(), "Отчёт одобрен!");
         sendMessage(report.getUser().getChatId(), String.format(
                 "%s, твой отчёт был одобрен. Организация: %s",
                 report.getUser().getUsername(), report.getOrganisationName()
         ));
+
+        editMessage(message.getChatId(), message.getMessageId(), message.getText(), inlineKeyboardMarkup(List.of()));
     }
 
 }

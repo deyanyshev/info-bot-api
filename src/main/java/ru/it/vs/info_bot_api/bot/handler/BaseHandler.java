@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -51,8 +52,24 @@ public abstract class BaseHandler {
                 .chatId(chatId)
                 .text(formatMessageText(text))
                 .replyMarkup(markup)
+                .parseMode(MARKDOWN_V2)
                 .build()
         );
+    }
+
+    protected void editMessage(long chatId, int messageId, String text, InlineKeyboardMarkup markup) {
+        try {
+            bot.execute(EditMessageText.builder()
+                    .replyMarkup(markup)
+                    .chatId(chatId)
+                    .messageId(messageId)
+                    .text(text)
+                    .parseMode(MARKDOWN_V2)
+                    .build()
+            );
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
     }
 
     protected void forwardMessage(Long toChatId, Long fromChatId, Integer messageId) {
