@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: chat-bot-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vt_med_info
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+bot:
+  token: "7298175171:AAHkDT_uVl-kIpZMOyr76jXeCUf9_XBeHUA"
+  name: "vtm_info"
+server:
+  port: 8081
