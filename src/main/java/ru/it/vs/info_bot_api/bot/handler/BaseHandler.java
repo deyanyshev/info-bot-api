@@ -46,15 +46,18 @@ public abstract class BaseHandler {
         );
     }
 
-    @SneakyThrows
     protected void sendMessage(long chatId, String text, InlineKeyboardMarkup markup) {
-        bot.execute(SendMessage.builder()
-                .chatId(chatId)
-                .text(formatMessageText(text))
-                .replyMarkup(markup)
-                .parseMode(MARKDOWN_V2)
-                .build()
-        );
+        try {
+            bot.execute(SendMessage.builder()
+                    .chatId(chatId)
+                    .text(formatMessageText(text))
+                    .replyMarkup(markup)
+                    .parseMode(MARKDOWN_V2)
+                    .build()
+            );
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
     }
 
     protected void editMessage(long chatId, int messageId, String text, InlineKeyboardMarkup markup) {

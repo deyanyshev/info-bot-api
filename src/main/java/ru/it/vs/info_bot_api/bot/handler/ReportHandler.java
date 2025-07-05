@@ -1,9 +1,11 @@
 package ru.it.vs.info_bot_api.bot.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.it.vs.info_bot_api.model.dto.ReportDto;
 import ru.it.vs.info_bot_api.model.dto.UserDto;
 import ru.it.vs.info_bot_api.model.request.ReportSaveRequest;
@@ -18,6 +20,7 @@ import static ru.it.vs.info_bot_api.enums.BotState.*;
 import static ru.it.vs.info_bot_api.utils.constants.BotConstants.*;
 import static ru.it.vs.info_bot_api.utils.constants.ButtonConstants.APPROVE_BUTTON_TEXT;
 
+@Slf4j
 @Component
 public class ReportHandler extends BaseHandler {
 

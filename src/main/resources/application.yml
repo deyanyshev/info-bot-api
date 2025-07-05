@@ -2,9 +2,9 @@ spring:
   application:
     name: chat-bot-api
   datasource:
-    url: jdbc:postgresql://localhost:5432/vt_med_info
+    url: jdbc:postgresql://83.147.247.172:5432/vt_med_info
     username: postgres
-    password: postgres
+    password: return57
   jpa:
     hibernate:
       ddl-auto: update

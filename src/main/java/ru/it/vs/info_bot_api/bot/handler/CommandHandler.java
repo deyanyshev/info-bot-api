@@ -33,13 +33,19 @@ public class CommandHandler extends BaseHandler {
     public void handle(Message message) {
         Optional<UserDto> user = userService.getUserByChatId(message.getChatId());
 
-        if (message.hasText() && message.getText().startsWith("/") && user.isPresent()) {
-            switch (message.getText()) {
-                case START_COMMAND -> start(message.getChatId());
-                case NEW_REPORT_COMMAND -> startReport(message.getChatId());
-                case REPORTS_COMMAND -> sendReports(message.getChatId());
-                case MY_REPORTS_COMMAND -> sendReportsByChatId(message.getChatId());
+        if (message.hasText() && message.getText().startsWith("/")) {
+            if (user.isPresent()) {
+                switch (message.getText()) {
+                    case START_COMMAND -> start(message.getChatId());
+                    case NEW_REPORT_COMMAND -> startReport(message.getChatId());
+                    case REPORTS_COMMAND -> sendReports(message.getChatId());
+                    case MY_REPORTS_COMMAND -> sendReportsByChatId(message.getChatId());
+                }
+            } else {
+                start(message.getChatId());
             }
+
+
         } else {
             switch (bot.chatStates.get(message.getChatId())) {
                 case START -> start(message.getChatId());
@@ -62,7 +68,8 @@ public class CommandHandler extends BaseHandler {
     }
 
     private void contact(Long chatId, Contact contact) {
-        String username = contact.getFirstName() + (contact.getLastName() != null ? " " + contact.getLastName() : "");
+        String username = (contact.getFirstName() != null ? contact.getFirstName() : "") +
+                (contact.getLastName() != null ? " " + contact.getLastName() : "");
 
         userService.create(UserSaveRequest.builder()
                 .username(username)
@@ -71,6 +78,7 @@ public class CommandHandler extends BaseHandler {
                 .build());
 
         help(chatId);
+        bot.chatStates.put(chatId, START);
     }
 
     private void help(Long chatId) {
