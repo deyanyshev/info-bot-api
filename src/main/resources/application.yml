@@ -2,14 +2,14 @@ spring:
   application:
     name: chat-bot-api
   datasource:
-    url: jdbc:postgresql://83.147.247.172:5432/vt_med_info
+    url: jdbc:postgresql://localhost:5432/vt_med_info
     username: postgres
-    password: return57
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
 bot:
-  token: "7298175171:AAHkDT_uVl-kIpZMOyr76jXeCUf9_XBeHUA"
+  token: "7991902014:AAFGCmWqgp75xjv0gKQWhgPRhSC1-ixWAGI"
   name: "vtm_info"
 server:
   port: 8081
